@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  STUDENT
+  SUPERVISOR
+  ADMIN
+}
+
+model User {
+  id                  String         @id @default(uuid())
+  clerkId             String         @unique
+  email               String         @unique
+  imageUrl            String         @default("lol")
+  firstName           String
+  lastName            String
+  fullName            String         @default("def fullname")
+  role                Role
+  projects            Project[]      @relation("StudentProjects")
+  supervisedProjects  Project[]      @relation("SupervisorProjects")
+  notifications       Notification[]
+
+  messagesSent        Message[]      @relation("SenderMessages")
+  messagesReceived     Message[]     @relation("ReceiverMessages")
+
+  createdAt           DateTime       @default(now()) 
+  updatedAt           DateTime       @updatedAt
+}
+
+
+
+enum ProjectStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  UNDER_REVIEW
+}
+
+model Project {
+  id                  String      @id @default(uuid())
+  title               String
+  description         String
+  fileUrl             String
+  feedback            String?     @default("No feedback")
+  studentId           String
+  supervisorId        String
+  status              ProjectStatus @default(PENDING)
+  notifications       Notification[]
+  plagiarismScore     Int?        @default(1)
+  plagiarismReport    String?     @default("[]")
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+
+  student             User        @relation("StudentProjects", fields: [studentId], references: [id])
+  supervisor          User        @relation("SupervisorProjects", fields: [supervisorId], references: [id])
+}
+
+model Notification {
+  id                  String   @id @default(uuid())
+  userId              String
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  message             String
+  isRead              Boolean  @default(false)
+  createdAt           DateTime @default(now())
+
+  // Optional: If notifications are linked to a project
+  projectId           String?  
+  project             Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Message {
+  id                  String      @id @default(uuid())
+
+  senderId            String
+  sender              User        @relation("SenderMessages", fields: [senderId], references: [id])
+  receiverId          String
+  receiver            User        @relation("ReceiverMessages", fields: [receiverId], references: [id])
+  content             String
+  isRead              Boolean     @default(false)
+  createdAt           DateTime    @default(now())
+
+}
+
