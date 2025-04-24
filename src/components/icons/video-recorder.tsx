@@ -1,6 +1,4 @@
-type Props = {}
-
-const VideoRecorderIcon = (props: Props) => {
+const VideoRecorderIcon = () => {
   return (
     <svg
       width="24"
@@ -15,7 +13,7 @@ const VideoRecorderIcon = (props: Props) => {
       />
       <rect x="2" y="5" width="15" height="14" rx="3" fill="#292929" />
     </svg>
-  )
-}
+  );
+};
 
-export default VideoRecorderIcon
+export default VideoRecorderIcon;

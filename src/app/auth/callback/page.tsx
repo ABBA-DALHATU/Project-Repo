@@ -1,4 +1,4 @@
-import FullPageLoader from "@/components/global/FullPageLoader";
+import { FullPageLoader } from "@/components/global/FullPageLoader";
 import React from "react";
 
 const Page = () => {

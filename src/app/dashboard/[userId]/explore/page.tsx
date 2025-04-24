@@ -95,7 +95,11 @@ const categories = [
   "Security",
 ];
 
-export default function ExplorePage({ params: { userId } }) {
+export default function ExplorePage({
+  params: { userId },
+}: {
+  params: { userId: string };
+}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortBy, setSortBy] = useState("newest");

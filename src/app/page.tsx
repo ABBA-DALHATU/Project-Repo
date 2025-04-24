@@ -617,7 +617,7 @@ export default function Home() {
                       ))}
                     </div>
                     <blockquote className="flex-1 text-lg italic mb-4">
-                      "{testimonial.quote}"
+                      &quot;{testimonial.quote}&quot;
                     </blockquote>
                     <div className="flex items-center">
                       <img

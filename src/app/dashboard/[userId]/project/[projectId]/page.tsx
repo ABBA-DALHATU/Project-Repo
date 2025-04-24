@@ -300,7 +300,7 @@ export default function ProjectDetails({ params: { projectId } }: Props) {
             />
             <ScrollArea className="h-[400px] rounded-md border p-4">
               <Accordion type="single" collapsible className="w-full">
-                {project.plagiarismReport.map((report, index) => (
+                {project.plagiarismReport?.map((report, index) => (
                   <AccordionItem value={`item-${index}`} key={index}>
                     <AccordionTrigger>
                       <div className="flex items-center gap-2">
